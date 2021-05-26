@@ -3,10 +3,9 @@ const fs = require("fs");
 
 exports.createSauce = (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
-  console.log("alert message for console===============", req.body);
   req.body.sauce = JSON.parse(req.body.sauce);
   const sauce = new Sauce({
-    userId: req.body.userId,
+    userId: req.body.sauce.userId,
     name: req.body.sauce.name,
     manufacturer: req.body.sauce.manufacturer,
     description: req.body.sauce.description,
@@ -52,6 +51,18 @@ exports.modifyingSauce = (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     req.body.sauce = JSON.parse(req.body.sauce);
     sauce = {
+      _id: req.params.id,
+      userId: req.body.sauce.userId,
+      name: req.body.sauce.name,
+      manufacturer: req.body.sauce.manufacturer,
+      description: req.body.sauce.description,
+      mainPepper: req.body.sauce.mainPepper,
+      imageUrl: url + "/images/" + req.file.filename,
+      heat: req.body.sauce.heat,
+      likes: 0,
+      dislikes: 0,
+      usersLiked: [],
+      usersDisliked: [],
       //   _id: req.params.id,
       //   title: req.body.thing.title,
       //   description: req.body.thing.description,
@@ -61,6 +72,17 @@ exports.modifyingSauce = (req, res, next) => {
     };
   } else {
     sauce = {
+      _id: req.params.id,
+      name: req.body.name,
+      manufacturer: req.body.manufacturer,
+      description: req.body.description,
+      mainPepper: req.body.mainPepper,
+      heat: req.body.heat,
+      likes: 0,
+      dislikes: 0,
+      usersLiked: [],
+      usersDisliked: [],
+      userId: req.body.userId,
       //   _id: req.params.id,
       //   title: req.body.title,
       //   description: req.body.description,
@@ -85,7 +107,7 @@ exports.modifyingSauce = (req, res, next) => {
 
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-    const filename = thing.imageUrl.split("/images/")[1];
+    const filename = sauce.imageUrl.split("/images/")[1];
     fs.unlink("images/" + filename, () => {
       Sauce.deleteOne({ _id: req.params.id })
         .then(() => {
