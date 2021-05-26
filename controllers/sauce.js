@@ -135,3 +135,57 @@ exports.getAllSauce = (req, res, next) => {
       });
     });
 };
+
+function arrayRemove(arr, value) {
+  return arr.filter(function (ele) {
+    return ele != value;
+  });
+}
+
+exports.like = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+    const likedUserId = req.body.userId;
+    if (req.body.like === 1) {
+      if (!sauce.usersLiked.includes(likedUserId)) {
+        sauce.usersLiked.push(likedUserId);
+        sauce.likes += 1;
+      }
+      if (sauce.usersDisliked.includes(likedUserId)) {
+        sauce.usersDisliked = arrayRemove(sauce.usersDisliked, likedUserId);
+        sauce.likes += 1;
+        sauce.dislikes -= 1;
+      }
+    } else if (req.body.like === -1) {
+      if (!sauce.usersDisliked.includes(likedUserId)) {
+        sauce.usersDisliked.push(likedUserId);
+        sauce.dislikes += 1;
+      }
+      if (sauce.usersLiked.includes(likedUserId)) {
+        sauce.usersLiked = arrayRemove(sauce.usersLiked, likedUserId);
+        sauce.likes -= 1;
+        sauce.dislikes += 1;
+      }
+    } else if (req.body.like === 0) {
+      if (sauce.usersLiked.includes(likedUserId)) {
+        sauce.usersLiked = arrayRemove(sauce.usersLiked, likedUserId);
+        sauce.likes -= 1;
+      }
+      if (sauce.usersDisliked.includes(likedUserId)) {
+        sauce.usersDisliked = arrayRemove(sauce.usersDisliked, likedUserId);
+        sauce.dislikes -= 1;
+      }
+    }
+
+    Sauce.updateOne({ _id: req.params.id }, sauce)
+      .then(() => {
+        res.status(200).json({
+          message: "Sauce likes updated successfully!",
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          error: error,
+        });
+      });
+  });
+};
