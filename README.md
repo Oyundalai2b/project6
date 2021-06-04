@@ -8,7 +8,7 @@ Clone this repo, run the following commands:
 `npm install`
 `npm install --dev`
 
-Create `.env` file and 
+Create `.env` file and create following environment variables:
 ```
 MONGODB_USER=YOUR_MONGODB_USER
 MONGODB_PASSWORD=YOUR_MONGODB_PASSWORD
