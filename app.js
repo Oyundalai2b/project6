@@ -9,8 +9,8 @@ const userRoutes = require("./routes/user");
 const app = express();
 
 dotenv.config();
-const MONGO_URL = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}`;
-console.log(MONGO_URL);
+const MONGO_URL = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
+
 mongoose
   .connect(MONGO_URL)
   .then(() => {
