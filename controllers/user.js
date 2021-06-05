@@ -1,27 +1,39 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var validator = require("email-validator");
+
 const User = require("../models/user");
+
 // const mongoose = require("mongoose");
 
+const saltRounds = 10;
+
 exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
-      //   userId: mongoose.Types.ObjectId(),
-      email: req.body.email,
-      password: hash,
-    });
-    user
-      .save()
-      .then(() => {
-        res.status(201).json({
-          message: "User added successfully!",
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(req.body.password, salt).then((hash) => {
+      if (!validator.validate(req.body.email)) {
+        return res.status(500).json({
+          error: "Enter valid email!",
         });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error: error,
-        });
+      }
+      const user = new User({
+        //   userId: mongoose.Types.ObjectId(),
+        email: req.body.email,
+        password: hash,
       });
+      user
+        .save()
+        .then(() => {
+          res.status(201).json({
+            message: "User added successfully!",
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error: error,
+          });
+        });
+    });
   });
 };
 
