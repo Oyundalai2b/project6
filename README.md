@@ -4,9 +4,9 @@
 Install node.js
 Install mongoDB
 
-Clone this repo, run the following commands:
+Clone this repo, run the following command:
 `npm install`
-`npm install --dev`
+
 
 Create `.env` file and create following environment variables:
 ```
