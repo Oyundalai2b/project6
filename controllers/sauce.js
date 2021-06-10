@@ -63,12 +63,6 @@ exports.modifyingSauce = (req, res, next) => {
       dislikes: 0,
       usersLiked: [],
       usersDisliked: [],
-      //   _id: req.params.id,
-      //   title: req.body.thing.title,
-      //   description: req.body.thing.description,
-      //   imageUrl: url + "/images/" + req.file.filename,
-      //   price: req.body.thing.price,
-      //   userId: req.body.thing.userId,
     };
   } else {
     sauce = {
@@ -83,12 +77,6 @@ exports.modifyingSauce = (req, res, next) => {
       usersLiked: [],
       usersDisliked: [],
       userId: req.body.userId,
-      //   _id: req.params.id,
-      //   title: req.body.title,
-      //   description: req.body.description,
-      //   imageUrl: req.body.imageUrl,
-      //   price: req.body.price,
-      //   userId: req.body.userId,
     };
   }
 

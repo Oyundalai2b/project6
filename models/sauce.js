@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const sauceSchema = mongoose.Schema({
-  //   userId: { type: String, required: true, ref: "User" },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

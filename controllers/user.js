@@ -4,8 +4,6 @@ var validator = require("email-validator");
 
 const User = require("../models/user");
 
-// const mongoose = require("mongoose");
-
 const saltRounds = 10;
 
 exports.signup = (req, res, next) => {
@@ -17,7 +15,6 @@ exports.signup = (req, res, next) => {
         });
       }
       const user = new User({
-        //   userId: mongoose.Types.ObjectId(),
         email: req.body.email,
         password: hash,
       });
